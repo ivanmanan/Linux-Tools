@@ -1,0 +1,50 @@
+Git Commands
+
+Setting-Up Git
+$ git config --global user.name "ivanmanan"
+$ git config --global user.email "<email-name>"
+$ git config --global credential.helper 'cache --timeout=14400'
+
+Fetch all remote branches
+$ git fetch --all
+
+Show all branches
+$ git branch -a
+
+Create a branch
+$ git branch <branch-name> origin/<branch-name>
+
+Switch to a branch
+$ git checkout <branch-name>
+$ git checkout -b <create-this-branch>
+
+Pull from the branch
+$ git pull
+
+Merge another branch into current branch
+$ git merge <other-branch-name>
+
+Push local merge into remote repository
+$ git push origin
+
+Check difference between local repository and remote repository
+$ git status
+$ git diff
+
+Short-hand version
+$ git status -s
+
+Add, commit, and push
+$ git add <file-name>
+$ git add .
+$ git commit -m "message"
+$ git commit -am "append message"
+$ git push
+
+Check all commits
+$ git log
+
+Reset local repository
+$ git reset --hard head
+$ git reset --hard <commit>
+$ git revert <commit>

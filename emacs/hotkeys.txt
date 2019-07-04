@@ -1,0 +1,101 @@
+Mark Ring
+
+C-x C-x
+highlight the region from the previous C-<SPC> C-<SPC> point
+
+C-<SPC> C-<SPC>
+Set the mark and push it onto the mark ring
+
+C-u <SPC>
+move to where the mark was, and restore the mark from ring of former marks
+
+
+
+Magit Commands
+
+C-x g - opens magit buffer
+s - stages files
+c c - initiate a commit - write a message
+C-c C-c - creates the commit
+P u - pushes to upstream branch
+=====================================================
+useful things about ido:
+https://www.emacswiki.org/emacs/InteractivelyDoThings
+
+navigate point history
+C-u C-<SPACE>
+
+navigate between buffers
+C-x C-<SPACE>
+
+Cycle through kill ring
+C-y
+M-y
+
+Move between lisp expressions
+C-M-n
+C-M-f
+move forward to parenthesis group
+
+C-M-p
+C-M-b
+move backward to parenthesis group
+
+Record the most important Emacs features here
+
+when in term bufer, C-x is C-c
+ultimate customization:
+have dired directory mode on top-left corner or left-side;
+OR
+have embedded terminal on the bottom or right side panel
+
+Registers
+
+Filesets
+
+Macroing
+
+Buffers
+
+copying and pasting and cycling through kill ring and yank ring
+
+be able to create a separate window displaying dired mode
+
+Best set-up:
+dired on top left, embedded terminal on bottom panel
+change embedded terminal color to green on black or green on grey
+dired should be blue on black for folder name, white for actual files
+
+
+M-x kill-some-buffers
+M-x clean-buffer-list
+
+
+in M-x shell
+C-v - scrolls down on the view
+
+
+Navigating through compilation errors:
+<f1>
+<f2>
+navigate through locust of errors in the current buffer
+M-n
+M-p
+navigate through compilation errors in the compilation buffer
+
+C-spc C-spc , sets the point
+Go somewhere
+C-x C-x, go back to marked point
+C-u C-spc
+
+In GNOME:
+can use SUPER + <UP>/<DOWN>/<LEFT>/<RIGHT> keys for tiling
+
+For Emacs Shell Mode:
+C-l - clears the screen
+C-c C-p - moves to previous command - however, you can just edit and press <RET> to execute the edited command
+
+
+Emacs Macroing
+C-u 37 <F4>
+execute macro 37 times

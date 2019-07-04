@@ -1,0 +1,587 @@
+Emacs Lisp Manual
+
+C-h i elisp
+
+=================================================================================
+Ch. 1 - Introduction
+
+Lisp - LISt Processing Language
+Emacs Lisp - inspired by Maclisp
+
+1.3 - conventions
+
+lisp reader/lisp printer - routines in Lisp that convert textual representations of the Lisp objects into actual Lisp objects and vice versa
+
+nil - symbol with the name 'nil
+      logical truth value FALSE
+      empty list - the list of zero elements
+
+() and nil are identical
+use () to emphasize that it means the empty list
+
+(cons 'foo ())
+(setq foo-flag nil)
+
+any non-'nil' value is considered to be TRUE
+'t' = preferred way to represent truth value TRUE
+
+lisp expression that you can evaluate is called a "form"
+evaluating a form always produces a result, which is a lisp object
+
+(car '(1 2)) => 1
+"(car '(1 2)) ' evaluates to 1"
+
+when a form is a macro call, it expands into a new form for Lisp to evaluate
+
+two forms can be equivalent
+(make-spare-keymap) = (list 'keymap)
+
+function description - name of the function being described appears first
+                       followed on the same line by a list of argument names
+
+C-x C-e
+evaluate lisp expression
+
+(emacs-version)
+=================================================================================
+Ch. 2 - Lisp Data Types
+
+Lisp object - a piece of data used and manipulated by lisp programs
+
+no type declarations exist in Emacs Lisp - a Lisp variable can have any type of value, and it remembers whatever value you store in it, type and all.
+
+Hashed notation #<...>
+--> cannot be read at all through Lisp interpreter
+
+; - comment in Lisp
+
+Character
+a character in Emacs Lisp is nothing more than an integer
+--> characters are represented by their character codes
+'A' = 65
+
+symbol - an object with a name
+         can serve as a variable, a function name, or to hold a property list
+
+sequence - an ordered set of elements - lists and arrays
+lists - can hold elements of any type
+arrays - fixed-length sequences
+
+(A 2 "A") - a list of three elements
+() - empty list
+nil - empty list
+("A ()") - list of one element/string
+(A ()) - list of two elements - 'A' and the empty list
+((A B C)) - a list of one element which is a list of three elements
+
+alist - association list - a list whose elements are cons cells
+
+(setq alist-of-colors
+           '((rose . red) (lily . white) (buttercup . yellow)))
+
+alist-of-colors = alist of three elements
+
+string = array of characters
+
+vector - one-dimensional array of elements of any type
+[1 "two" (three)] - a vector of three elements
+
+char table - one-dimensional array of elements of any type, indexed by character codes
+bool vector - one-dimensional array whose elements must be 't' or 'nil'
+hash table - a very fast kind of lookup table; maps keys to corresponding values
+
+Ex. hash-table
+    (make-hash-table)
+          ⇒ #s(hash-table size 65 test eql rehash-size 1.5
+                                  rehash-threshold 0.8 data ())
+
+lambda - a function with no name - anonymous function
+Lisp Macro - user-defined construct that extends the Lisp language
+             an object much like a function, but with different argument-passing semantics
+finalizer object - helps Lisp code clean up after objects that are no longer needed
+
+2.7 - equality predicates
+(eq 'object1 'object2) - compares to objects - 't' if equal; 'nil' if false
+
+(eq 'foo 'foo) => true
+(eq "asdf" "asdf") => nil
+
+object1 and object2 are equal if they have the same value - applies to integers
+for other types (e.g. lists, vectors, strings), two arguments with same contents or elements are not necessarily equal to each other
+=================================================================================
+Ch. 3 - Numbers
+
+3.6 - arithmetic operations
+
+(+ 1 2 3 4) = 10
+(- 10 1 2 3 4) = 0
+(* 1 2 3 4) = 24
+(/ 6 2) = 3
+(/ 5.0 2) = 2.5
+(/ 5 2) = 2
+(% 9 4) = 1
+(mod 9 4) = 1
+(mod -9 4) = 3
+
+lsh - logical shift - shifts bits to left COUNT
+                    - if negative COUNT, shifts right
+
+(lsh 5 1) = 10
+00000101 --> 00001010
+
+(lsh 7 1) = 14
+00000111 --> 00001110
+
+(lsh 6 -1) = 3
+00000110 --> 00000011
+
+(lsh 5 -1) = 2
+00000101 ⇒ 00000010
+
+ash - arithmetic shift
+logand
+logior
+logxor
+lognot
+--> bitwise operations on integers
+=================================================================================
+Ch. 4 - Strings and Characters
+
+(make-string 5 ?x) = "xxxxx"
+--> produce a string made up of 'x' 5 times
+
+4.5 - comparing strings
+(char-equal ?x ?x) = t
+(string< "abc" "abd") = t
+
+=================================================================================
+Ch. 5 - Lists
+
+lists - built up from cons cells
+cons cell - a data object that represents an ordered pair
+--> analogous to linked lists in C
+
+(setq foo '())
+⇒ nil
+(add-to-ordered-list 'foo 'a 1)     ;; Add ‘a’.
+⇒ (a)
+(add-to-ordered-list 'foo 'c 3)     ;; Add ‘c’.
+⇒ (a c)
+(add-to-ordered-list 'foo 'b 2)     ;; Add ‘b’.
+⇒ (a b c)
+(add-to-ordered-list 'foo 'b 4)     ;; Move ‘b’.
+⇒ (a c b)
+(add-to-ordered-list 'foo 'd)       ;; Append ‘d’.
+⇒ (a c b d)
+(add-to-ordered-list 'foo 'e)       ;; Add ‘e’.
+⇒ (a c b e d)
+foo                       ;; ‘foo’ was changed.
+⇒ (a c b e d)
+
+=================================================================================
+Ch. 6 - Sequences, Arrays, and Vectors
+
+sequence - union of two other Lisp types - lists and arrays
+any list is a sequence
+any array is a sequence
+sequences, arrays, and vectors each is an ordered collection of elements
+
+array - fixed length object -- all elements accessible in constant time
+--> four types of arrays: strings, vectors, char-tables, and bool-vectors
+
+list - made of cons cells (linked lists in C)
+--> finding Nth element requires looking through N cons cells, so elements farther from the beginning of the list take longer to access
+
+
+               _____________________________________________
+              |                                             |
+              |          Sequence                           |
+              |  ______   ________________________________  |
+              | |      | |                                | |
+              | | List | |             Array              | |
+              | |      | |    ________       ________     | |
+              | |______| |   |        |     |        |    | |
+              |          |   | Vector |     | String |    | |
+              |          |   |________|     |________|    | |
+              |          |  ____________   _____________  | |
+              |          | |            | |             | | |
+              |          | | Char-table | | Bool-vector | | |
+              |          | |____________| |_____________| | |
+              |          |________________________________| |
+              |_____________________________________________|
+
+
+          (setq bar '(1 2))
+               ⇒ (1 2)
+          (setq x (vector 'foo bar))
+               ⇒ [foo (1 2)]
+          (setq y (copy-sequence x))
+               ⇒ [foo (1 2)]
+
+          (eq x y)
+               ⇒ nil
+          (equal x y)
+               ⇒ t
+          (eq (elt x 1) (elt y 1))
+               ⇒ t
+
+          ;; Replacing an element of one sequence.
+          (aset x 0 'quux)
+          x ⇒ [quux (1 2)]
+          y ⇒ [foo (1 2)]
+
+          ;; Modifying the inside of a shared element.
+          (setcar (aref x 1) 69)
+          x ⇒ [quux (69 2)]
+          y ⇒ [foo (69 2)]
+
+Ex. reverse sequence function
+
+          (setq x '(1 2 3 4))
+               ⇒ (1 2 3 4)
+          (reverse x)
+               ⇒ (4 3 2 1)
+          x
+               ⇒ (1 2 3 4)
+          (setq x [1 2 3 4])
+               ⇒ [1 2 3 4]
+          (reverse x)
+               ⇒ [4 3 2 1]
+          x
+               ⇒ [1 2 3 4]
+          (setq x "xyzzy")
+               ⇒ "xyzzy"
+          (reverse x)
+               ⇒ "yzzyx"
+          x
+               ⇒ "xyzzy"
+
+6.3 - operate on arrays
+
+ -- Function: arrayp object
+     This function returns ‘t’ if OBJECT is an array (i.e., a vector, a
+     string, a bool-vector or a char-table).
+
+          (arrayp [a])
+               ⇒ t
+          (arrayp "asdf")
+               ⇒ t
+          (arrayp (syntax-table))    ;; A char-table.
+               ⇒ t
+
+ -- Function: aref array index
+     This function returns the INDEXth element of ARRAY.  The first
+     element is at index zero.
+
+          (setq primes [2 3 5 7 11 13])
+               ⇒ [2 3 5 7 11 13]
+          (aref primes 4)
+               ⇒ 11
+          (aref "abcdefg" 1)
+               ⇒ 98           ; ‘b’ is ASCII code 98.
+
+ -- Function: aset array index object
+     This function sets the INDEXth element of ARRAY to be OBJECT.  It
+     returns OBJECT.
+
+          (setq w [foo bar baz])
+               ⇒ [foo bar baz]
+          (aset w 0 'fu)
+               ⇒ fu
+          w
+               ⇒ [fu bar baz]
+
+          (setq x "asdfasfd")
+               ⇒ "asdfasfd"
+          (aset x 3 ?Z)
+               ⇒ 90
+          x
+               ⇒ "asdZasfd"
+
+     If ARRAY is a string and OBJECT is not a character, a
+     ‘wrong-type-argument’ error results.  The function converts a
+     unibyte string to multibyte if necessary to insert a character.
+
+ -- Function: fillarray array object
+     This function fills the array ARRAY with OBJECT, so that each
+     element of ARRAY is OBJECT.  It returns ARRAY.
+
+          (setq a [a b c d e f g])
+               ⇒ [a b c d e f g]
+          (fillarray a 0)
+               ⇒ [0 0 0 0 0 0 0]
+          a
+               ⇒ [0 0 0 0 0 0 0]
+          (setq s "When in the course")
+               ⇒ "When in the course"
+          (fillarray s ?-)
+               ⇒ "------------------"
+
+     If ARRAY is a string and OBJECT is not a character, a
+     ‘wrong-type-argument’ error results.
+
+6.4 - vectors
+
+     (setq avector [1 two '(three) "four" [five]])
+          ⇒ [1 two (quote (three)) "four" [five]]
+     (eval avector)
+          ⇒ [1 two (quote (three)) "four" [five]]
+     (eq avector (eval avector))
+          ⇒ t
+
+6.5 - functions for vectors
+ -- Function: vectorp object
+     This function returns ‘t’ if OBJECT is a vector.
+
+          (vectorp [a])
+               ⇒ t
+          (vectorp "asdf")
+               ⇒ nil
+
+ -- Function: vector &rest objects
+     This function creates and returns a vector whose elements are the
+     arguments, OBJECTS.
+
+          (vector 'foo 23 [bar baz] "rats")
+               ⇒ [foo 23 [bar baz] "rats"]
+          (vector)
+               ⇒ []
+
+ -- Function: make-vector length object
+     This function returns a new vector consisting of LENGTH elements,
+     each initialized to OBJECT.
+
+          (setq sleepy (make-vector 9 'Z))
+               ⇒ [Z Z Z Z Z Z Z Z Z]
+
+ -- Function: vconcat &rest sequences
+     This function returns a new vector containing all the elements of
+     SEQUENCES.  The arguments SEQUENCES may be true lists, vectors,
+     strings or bool-vectors.  If no SEQUENCES are given, the empty
+     vector is returned.
+
+     The value is either the empty vector, or is a newly constructed
+     nonempty vector that is not ‘eq’ to any existing vector.
+
+          (setq a (vconcat '(A B C) '(D E F)))
+               ⇒ [A B C D E F]
+          (eq a (vconcat a))
+               ⇒ nil
+          (vconcat)
+               ⇒ []
+          (vconcat [A B C] "aa" '(foo (6 7)))
+               ⇒ [A B C 97 97 foo (6 7)]
+     (setq avector [1 two (quote (three)) "four" [five]])
+          ⇒ [1 two (quote (three)) "four" [five]]
+     (append avector nil)
+          ⇒ (1 two (quote (three)) "four" [five])
+
+6.6 - char-tables
+
+char-table - much like a vector, except that it is indexed by character codes
+
+6.7 - bool-vectors
+
+bool-vector - much like a vector, except that it stores only the values 't' and 'nil'
+
+=================================================================================
+Ch. 7 - Hash Tables
+
+hash table - very fast lookup table; can map keys to corresponding values
+
+ -- Function: make-hash-table &rest keyword-args
+     This function creates a new hash table according to the specified
+     arguments.  The arguments should consist of alternating keywords
+     (particular symbols recognized specially) and values corresponding
+     to them.
+ -- Function: gethash key table &optional default
+     This function looks up KEY in TABLE, and returns its associated
+     VALUE—or DEFAULT, if KEY has no association in TABLE.
+
+ -- Function: puthash key value table
+     This function enters an association for KEY in TABLE, with value
+     VALUE.  If KEY already has an association in TABLE, VALUE replaces
+     the old associated value.
+
+ -- Function: remhash key table
+     This function removes the association for KEY from TABLE, if there
+     is one.  If KEY has no association, ‘remhash’ does nothing.
+
+     Common Lisp note: In Common Lisp, ‘remhash’ returns non-‘nil’ if it
+     actually removed an association and ‘nil’ otherwise.  In Emacs
+     Lisp, ‘remhash’ always returns ‘nil’.
+
+ -- Function: clrhash table
+     This function removes all the associations from hash table TABLE,
+     so that it becomes empty.  This is also called “clearing” the hash
+     table.
+
+     Common Lisp note: In Common Lisp, ‘clrhash’ returns the empty
+     TABLE.  In Emacs Lisp, it returns ‘nil’.
+
+ -- Function: maphash function table
+     This function calls FUNCTION once for each of the associations in
+     TABLE.  The function FUNCTION should accept two arguments—a KEY
+     listed in TABLE, and its associated VALUE.  ‘maphash’ returns
+     ‘nil’.
+
+7.3 - more information on hash tables
+=================================================================================
+Ch. 8 - Symbols
+
+ -- Function: symbolp object
+     This function returns ‘t’ if OBJECT is a symbol, ‘nil’ otherwise.
+
+symbol - has four components/cells - print name, value, function, property list
+
+     buffer-file-name
+          ⇒ "/gnu/elisp/symbols.texi"
+     (symbol-function 'buffer-file-name)
+          ⇒ #<subr buffer-file-name>
+
+8.2 - defining symbols
+
+defvar, defconst
+define a symbol as a global variable
+
+setq
+assign a variable value to any symbol
+
+defun
+defines a symbol as a function
+creates a lambda expression and storing it in the function cell of the symbol
+
+defmacro
+defines a symbol as a macro
+
+8.4 - more info on symbols
+=================================================================================
+Ch. 9 - Evaluation
+
+evaluation - a recursive process
+evaluating '(car x)' -- first evaluates the argument x, then the function ('car')
+
+=================================================================================
+Ch. 10 - Control Structures
+
+(progn A B C ...)
+execute forms A, B, C, and so on in that order
+
+ -- Special Form: progn forms...
+     This special form evaluates all of the FORMS, in textual order,
+     returning the result of the final form.
+
+          (progn (print "The first form")
+                 (print "The second form")
+                 (print "The third form"))
+               ⊣ "The first form"
+               ⊣ "The second form"
+               ⊣ "The third form"
+          ⇒ "The third form"
+
+ -- Special Form: prog1 form1 forms...
+     This special form evaluates FORM1 and all of the FORMS, in textual
+     order, returning the result of FORM1.
+
+          (prog1 (print "The first form")
+                 (print "The second form")
+                 (print "The third form"))
+               ⊣ "The first form"
+               ⊣ "The second form"
+               ⊣ "The third form"
+          ⇒ "The first form"
+
+10.2 - conditionals
+
+          (if nil
+              (print 'true)
+            'very-false)
+          ⇒ very-false
+
+          (setq num 0)
+               ⇒ 0
+          (while (< num 4)
+            (princ (format "Iteration %d." num))
+            (setq num (1+ num)))
+               ⊣ Iteration 0.
+               ⊣ Iteration 1.
+               ⊣ Iteration 2.
+               ⊣ Iteration 3.
+               ⇒ nil
+
+               (while (progn
+                   (forward-line 1)
+                   (not (looking-at "^$"))))
+=================================================================================
+Ch. 11 - Variables
+
+(setq x '(a b))
+specify a value for symbol x
+
+setq is set but does the quote ' automatically on the next variable
+=================================================================================
+Ch. 12 - Functions
+
+function - a rule for carrying out a computation given input values called "arguments"
+
+Ex. Lambda - anonymous function - has no name
+     (lambda (x)
+       "Return the hyperbolic cosine of X."
+       (* 0.5 (+ (exp x) (exp (- x)))))
+=================================================================================
+Ch. 21 - Keymaps
+
+ -- Function: kbd keyseq-text
+     This function converts the text KEYSEQ-TEXT (a string constant)
+     into a key sequence (a string or vector constant).
+          (kbd "C-x") ⇒ "\C-x"
+          (kbd "C-x C-f") ⇒ "\C-x\C-f"
+          (kbd "C-x 4 C-f") ⇒ "\C-x4\C-f"
+          (kbd "X") ⇒ "X"
+          (kbd "RET") ⇒ "\^M"
+          (kbd "C-c SPC") ⇒ "\C-c "
+          (kbd "<f1> SPC") ⇒ [f1 32]
+          (kbd "C-M-<down>") ⇒ [C-M-down]
+=================================================================================
+Ch. - 22 Major and Minor Modes
+
+hook - a variable where you can store a function or functions to be called on a particular occasion by an existing program
+
+review appendix H on standard hooks
+
+Ex.
+(add-hook 'lisp-interaction-mode-hook 'auto-fill-mode)
+turn on auto-fill-mode minor mode when entering lisp interaction mode
+
+(add-hook 'text-mode-hook 'my-text-hook-function)
+add a function to above so when it opens a text major mode, then the above function gets executed
+=================================================================================
+Ch. 27 - Windows
+=================================================================================
+Ch. 28 - Frames
+=================================================================================
+Ch. 29 - Positions
+=================================================================================
+Ch. 30 - Markers
+=================================================================================
+Ch. 31 - Text
+=================================================================================
+Ch. 35 - Abbrevs and Abbrev Expansion
+=================================================================================
+Ch. 36 - Processes
+=================================================================================
+Ch. 37 - Display
+=================================================================================
+=================================================================================
+=================================================================================
+Lisp Video Notes
+
+(- 5 5 10 20 30) = -60 = 5 - 5 - 10 - 20 - 30
+
+(defun add-nums (a b) (+ a b))
+(add-nums 10 10)
+
+define a function 'add-nums' with parameters 'a' and 'b', and perform the addition operation
+
+call the function 'add-nums' with arguments '10' and '10'
+

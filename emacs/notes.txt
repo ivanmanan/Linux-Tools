@@ -1,0 +1,2076 @@
+Emacs Manual
+
+==================================================================================
+Some definitions
+kill - delete
+yank - reinsert text previously killed
+REGEXP - regular expression
+
+==================================================================================
+Info Mode
+n - next node
+p - previous node
+l - last page I visited
+Space - next view
+Backspace - previous view
+b - beginning of node
+TAB - switch been menu items
+d - back to table of contents
+t - top of the node
+q - quit info
+
+==================================================================================
+Ch. 1 Screen
+
+frame - graphical window occupied by emacs
+echo area - very bottom of the frame
+     	    displays messages and user input
+window - main area between the top of emacs and the echo area
+       	 where all the editing occurs (buffers)
+buffer - the text you are editing
+point - the cursor in the window
+
+mode line - 2nd to last line in emacs
+CS:CH-FR    BUF	   POS LINE  	(MAJOR MINOR)
+
+CS: - character set and newline convention for the current buffer
+      dash (-) means no special character set handling
+CH - status of the buffer
+     "--" buffer has same content as the corresponding file on disk
+     "**" buffer has been modified and unsaved
+     "%*" unsaved read-only buffer
+     "%%" read-only buffer corresponding to the file on disk
+FR - gives the frame name - appears only on text terminals
+BUF - name o fthe buffer displayed in the window
+POS - text above or below the window
+      attributes: "top", "all", "bot" "NN%" -- percentage of buffer above
+      		  	 	      	       the top of the window
+LINE - line of the buffer with L next to it
+MAJOR - name of the major mode used in the buffer
+      	principal editing mode for the buffer - ex. text mode, Lisp mode, C mode
+MINOR - list of enabled minor modes - adds additional features on top of
+      	     		      	      major
+
+==================================================================================
+Ch. 4 Keys and Commands
+Keys are binded to commands
+
+==================================================================================
+Ch. 5 Entering Emacs
+
+$ emacs &;
+Won't use up the shell terminal
+
+practical: do not start emacs on every new shell
+	   start it once, and do all the editing in same emacs session
+	   Emacs accumulates kill ring, registers, undo history, and
+	   mark ring data
+
+
+emacsclient
+to edit a file from another program while emacs is running
+opens a file in the existing emacs session
+
+==================================================================================
+Ch. 6 Exiting Emacs
+
+C-x C-c
+kills emacs
+killing - terminate emacs program
+
+C-z
+gui: minimizes emacs
+on text terminal: suspends emacs
+
+==================================================================================
+Ch. 7 inserting text
+
+C-j
+insert new line without auto-indentation
+
+C-h
+insert non-graphic character
+
+C-x 8 <ret>
+insert unicode name or code-point of a character
+
+7.2 - navigating
+C-f
+C-b
+C-n
+C-p
+C-a
+C-e
+C-l
+
+M-f
+M-b
+M-r - reposition point on the left margin of the center-most text line of the
+      window; subsequent consecutive presses: move to top-most line and
+      bottom most-line
+M-< - top of buffer
+M-> - end of buffer
+
+C-v
+M-v
+
+7.3 - deleting
+kill means erase or delete
+C-d
+C-k - kill to end of the line - at end of line, it deletes the next line
+M-d - kill forward to the end of the next word
+M-<BACKSPACE> - kill back to the beginning of the previous word
+
+7.4 - undoing
+C-/
+C-x u
+C-_
+
+7.5 - files
+C-x C-f file_name <RET>
+find a file and open it in another buffer
+
+7.6 - help
+C-h k
+describe key
+
+7.7 - blank lines
+C-o
+insert a blank line after the cursor
+
+C-x C-o
+delete all but one of many consecutive blank lines
+
+M-x count-words
+Display number of lines, words, and characters
+
+7.10 numeric arguments
+M-digit <COMMAND>
+execute the command however many times
+
+M-digit <char>
+insert that character however many times
+
+M-5 0 C-n
+Move down 50 lines
+
+7.11 - repeating commands
+invoke a numeric argument with the command
+
+C-x z
+repeat an Emacs command
+type conseuctive z's afterwards to repeat the command multiple times
+
+==================================================================================
+Ch. 8 - Minibuffer
+
+minibuffer - where emacs commands read complicated argments, such as file names,
+	     buffer names, command names, or Lisp expressions
+
+8.5 minibuffer history
+M-p
+move to the previous item in the minibuffer history
+
+M-n
+move to the next item in the minibuffer history
+
+M-r REGEXP <RET>
+move to an earlier item in the minibuffer history that matches
+
+M-s REGEXP <RET>
+move to a later item in the minibuffer history that matches REGEXP
+
+C-x <ESC> <ESC>
+re-execute a recent minibuffer command from the command history
+
+M-x list-command-history
+display entire command history, showing all the commands C-x <ESC> <ESC> can repeat
+
+==================================================================================
+Ch. 9 - Running Commands By Name
+
+M-x
+enter a command
+
+C-g
+<ESC> <ESC> <ESC>
+cancel
+
+==================================================================================
+Ch. 10 - Help
+
+Emacs Manual
+C-h r
+
+Emacs Lisp Manual
+C-h m elisp
+
+C-h c
+describe a key briefly
+
+C-h k
+describe key fully
+
+C-h w
+lists the keys that are bound to COMMAND
+
+==================================================================================
+Ch. 11 - The Mark and the Region
+
+mark - checkpoint/location
+region - area highlighted
+
+C-<SPC>
+C-@
+set the mark at point, and activate it
+
+C-x C-x [Move] C-x C-x
+so C-x C-x once, move, then do C-x C-x again
+set mark at point, activate it, then move back to the mark
+Can also highlight first, then do C-x C-x again to go back to the mark
+
+C-<SHIFT>-<KEY>
+shifted cursor motion keys
+press control and shift once, then move and region becomes lighted
+
+C-x C-u
+convert region to upper case
+
+C-<SPC> C-<SPC>
+set a mark; does not highlight region
+
+C-u C-<SPC>
+jump to set mark
+
+M-@
+highlight after end of next work; does not move point
+consecutive clicks - marks consecutive words
+
+C-M-@
+set mark after end of following balanced expression
+
+M-h
+move point to the beginning of the current paragraph
+sets mark at the end
+marks paragraphs
+
+C-M-h
+move point to the beginning of the current defunc,
+set mark at the end
+
+C-x C-p
+move point to the beginning of the current page, set
+mark at the end
+marks pages
+
+C-x h
+move point to the beginnig of the buffer, and set mark
+at the end
+highlights entire buffer
+marks entire buffer
+
+C-w
+kill region
+cut
+
+M-w
+copy to kill ring
+copy
+
+C-x C-l
+lowercase region
+
+C-u C-/
+undo changes in region
+
+M-%
+replace text in it
+
+C-x <TAB>
+C-M-\
+indent region
+
+M-x fill-region
+fill region with text
+
+M-$
+check spelling of words
+
+M-x eval-region
+evaluate lisp code
+
+C-x r s
+save region in a register
+
+11.4 - the mark ring
+
+Mark Ring
+list of locations of the mark
+purpose: remember spots that you want to go back to
+
+C-<SPC> C-<SPC>
+set the mark, pushing it onto the ring, without activating it
+
+C-u C-<SPC>
+move point to where the mark was, and restore the mark from the
+ring of former marks
+
+11.5 - global mark ring
+
+Global Mark Ring
+records a sequence of marks in different buffers i have visited
+max length is 16
+
+==================================================================================
+Ch. 12 - Killing and Moving Text
+
+killing - erasing text and copying it into the kill ring
+yanking - bringing text from the kill ring back into the buffer
+practically cutting and pasting
+
+deleting text
+does not save to kill ring
+
+M-\
+delete spaces and tabs around point
+delete horizontal space
+
+C-x C-o
+delete blank lines around the current line
+
+M-^
+join two lines by deleting the intervening new line, along with
+any indentation following it
+
+C-k
+kill rest of line
+
+C-<SHIFT>-backspace
+kill an entire line at once
+
+C-w
+kill region
+cut
+
+M-w
+copy region into kill ring
+copy
+
+M-d
+kill next word
+
+C-x <BACKSPACE>
+kill back to beginning of sentence
+
+M-k
+kill to end of the sentence
+
+C-M-k
+kill the following balanced expression
+
+M-z CHAR
+kill through the next occurence of CHAR
+killing and searching
+
+12.2 yanking
+C-y
+yank the last kill into the buffer at point
+
+M-y
+replace the text just yanked with an earlier batch of killed text
+
+C-M-w
+cause following command, if it is a kill command, to append to previous kill
+
+C-h v kill-ring
+view kill ring
+
+C-y M-y
+yank, then cycle through kill-ring however many times with M-y
+
+C-M-w
+append next kill with recent kill
+
+12.5 - rectangles
+I have no idea when I would use this
+
+==================================================================================
+Ch. 13 - Registers
+
+Registers
+compartments to save text, rectangles, positions, and other things
+bookmarks are similar to registers
+
+13.1 - saving positions in registers
+
+C-x r <SPC> R
+record position of point and the current buffer in register R
+
+C-x r j R
+jump to the position and buffer saved in register R
+
+13.2 - saving text in registers
+
+C-x r s R
+copy region into register R
+
+C-x r i R
+insert text from register R
+
+M-x append-to-register <RET> R
+append region to text in register R
+
+M-x prepend-to-register <RET> R
+prepend region in text in register R
+
+13.4 saving window configurations in registers
+
+C-x r w R
+save the state of the selected frame's windows in register R
+
+C-x r f R
+save the state of all frames, including all their windows, in register R
+
+C=x r j R
+restore a window or frame configuration
+
+13.5 - keeping numbers in registers
+
+C-u NUMBER C-x r n R
+store NUMBER into register
+
+C-u NUMBER C-x r + R
+increment the number in R
+behaves differently with a string
+
+C-x r i R
+insert number from register R into buffer
+
+13.6 - keeping file names in registers
+Lisp code to put file name into register R
+(set-register R '(file . NAME))
+
+C-x r j R
+visit file in register R
+same command to restore a frame configuration or jump to a position
+
+C-x C-k x R
+stores last keyboard macro in register R
+
+C-x r j R
+execute keyboard macro
+same as jump to a position or restore a frameset
+
+13.8 - bookmarks
+
+bookmarks record positions you can jump to
+purpose: record where you were reading in various files
+
+C-x r m <RET>
+     Set the bookmark for the visited file, at point.
+
+C-x r m BOOKMARK <RET>
+     Set the bookmark named BOOKMARK at point (bookmark-set).
+
+C-x r M BOOKMARK <RET>
+     Like C-x r m, but dont overwrite an existing bookmark.
+
+C-x r b BOOKMARK <RET>
+     Jump to the bookmark named BOOKMARK (bookmark-jump).
+
+C-x r l
+     List all bookmarks (list-bookmarks).
+
+M-x bookmark-save
+     Save all the current bookmark values in the default bookmark file.
+
+M-x bookmark-load <RET> FILENAME <RET>
+     Load a file named FILENAME that contains a list of bookmark values.
+     You can use this command, as well as bookmark-write, to work with
+     other files of bookmark values in addition to your default bookmark
+     file.
+
+M-x bookmark-write <RET> FILENAME <RET>
+     Save all the current bookmark values in the file FILENAME.
+
+M-x bookmark-delete <RET> BOOKMARK <RET>
+     Delete the bookmark named BOOKMARK.
+
+M-x bookmark-insert-location <RET> BOOKMARK <RET>
+     Insert in the buffer the name of the file that bookmark BOOKMARK
+     points to.
+
+M-x bookmark-insert <RET> BOOKMARK <RET>
+     Insert in the buffer the _contents_ of the file that bookmark
+     BOOKMARK points to.
+
+==================================================================================
+Ch. 14 - Controlling the Display
+
+14.1 - scrolling
+
+C-v
+M-v
+display last two lines
+
+14.2 - recentering
+
+C-l
+M-x recenter
+recenter the buffer
+
+C-M-l
+scroll heuristically to bring useful information onto the screen
+
+14.4 - horizontal scrolling
+
+C-x <
+scroll to the left
+
+C-x >
+scroll to the right
+
+14.5 - narrowing
+focus in on some portion of the buffer; everywhere else is temporarily inaccessible
+
+C-x n n
+narrow down b/w point and mark
+
+C-x n w
+make entire buffer accessible
+
+C-x n p
+narrow downt o current page
+
+C-x n d
+narrow downt o current defun
+
+14.6 - view mode
+q - disables view mode; switch back to buffer before view mode enabled
+e - disables view mode; keep current buffer and position
+<SPC> - scroll
+<BACKSPACE> - scroll backwards
+s - incremental search
+
+M-x view-buffer FILE_NAME
+enable view mode in the buffer
+
+M-x view-file
+view file in view mode
+
+14.7 - follow mode
+
+C-x 3 M-x follow-mode
+split two windows vertically
+one window is top, other window is bottom
+one window follows another
+
+14.8 - text faces
+
+faces - displaying text in different styles
+
+M-x list-faces-display
+lists the different faces available
+
+14.9 - colors for faces
+
+M-x list-colors-display
+view list of color names
+
+14.10 - standard faces
+text appearance
+default, bold, italic, underline, shadow, highlight, etc
+use this to edit mode-line, the status bar at the bottom of emacs screen, and the fringe or margins
+
+14.11 - text scale
+
+C-x C-+
+C-x C-=
+increase font size
+
+C-x C--
+decrease font size
+
+C-x C-0
+restore global fonts
+
+14.13 - interactive highlighting
+
+can be used to highlight variables
+
+M-x highlight-changes-mode
+highlights hte buffer changed most recently
+
+14.14 - window fringes
+
+fringes are margins
+can use fringes for debugging
+
+14.16 - useless whitespace
+
+(setq show-trailing-whitespace t)
+display trailing whitespaces
+
+M-x whitespace-mode
+view the trailing whitespaces
+
+14.17 - selective display
+hide lines indented more than a given number of columns
+
+C-x $ ('set-selective-display') N
+lines with at least N columns in indentation disappear from the screen
+
+C-x $
+display all hidden lines
+
+14.18 - optional mode line features
+
+M-x display-time
+displays time in emacs
+
+M-x display-battery
+displays battery charge in emacs
+
+14.19 - how text is displayed
+
+some ASCII code stuff
+
+14.22 - visual line mode
+enable word wrap for truncating words extending beyond the current line
+
+(setq-default word-wrap t)
+enable word wrap
+
+==================================================================================
+Ch. 15 - Searching and Replacement
+
+15.1 - incremental search
+
+C-s
+forward search
+
+C-r
+backward search
+
+when satisfied with the location of the search, type <RET> to enter bring cursor there
+
+C-s C-s
+search the last searched string
+
+15.2 - nonincremental search
+
+C-s <RET> STRING <RET>
+search for string
+
+C-r
+same as above but backwards
+
+15.3 - word search
+
+word search - finds sequence of words without regard to type of punctuation between them
+
+M-s w
+incremental forward word search
+
+15.4 - symbol search
+
+mainly used for source code
+
+M-s _
+symbol search
+
+15.5 - regular expression search
+
+regexp - regular expression
+       	 denotes a class of alnterative strings to match
+
+C-M-s
+C-M-r
+begin incremental regexp search
+
+15.6-15.10 - Regular Expressions
+I have no idea what this is
+
+15.10.1 - uncondtional replacement
+
+M-x replace-string <RET> STRING <RET> NEWSTRING <RET>
+replacement happens only text after current point location
+to limit within a region, highlight that region
+
+15.10.2 - regexp replacement
+regexp is a string with wildcards
+
+M-% STRING <RET> NEWSTRING <RET>
+query replace - replace one-by-one
+
+M-x replace-string
+replaces all occurrences of the string
+
+15.11 - search-and-loop commands
+display the number of ocurrences and locations of a regular expression
+
+15.12 - tailing search to your needs
+
+==================================================================================
+Ch. 16 - Commands for Fixing Typos
+
+C-/
+C-x u
+C-_
+All undo commands --> C-/ seems to be most common
+
+M-x undo-only
+resume undo changes after you escaped a sequence of undo's
+
+When a buffer is highlighted, C-/ will perform "selective undo" in that region instead of the entire buffer
+
+16.2 - transposing text
+
+C-t
+transpose two characters
+
+M-t
+transpose two words
+
+C-M-t
+transpose two balanced expressions
+
+C-x C-x
+transpose two lines
+
+16.3 - case convention
+
+M-- M-1
+convert last word to lower case
+
+M-- M-u
+convert last word to all upper case
+
+M-- M-c
+convert last word to lower case with capital initial
+
+16.4 - checking and correcting spelling
+
+M-$
+M-x ispell
+check and correct spelling of the word at point
+if region is active, do it for all words in the region instead
+
+M-x flyspell-mode
+highlight all misspelled words
+
+M-x flyspell-prog-mode
+highlight all misspelled words in comments and strings only
+
+==================================================================================
+Ch. 17 - Keyboard Macros
+
+Record a sequence of editing commands so you can repeat it conveniently later
+
+keyboard macro - a command defined by an Emacs user to stand for another sequence of keys
+
+Ex. if you are about to type C-n M-d C-d forty times, you can speed your work by defining a keyboard macro to do C-n M-d C-d, and then executing it 39 more times
+
+<F3>
+start defining a keyboard macro
+
+<F4>
+if a keyboard macro is being defined, end the definition; otherwise, execute the most recent keyboard macro
+
+C-u <F3>
+re-execute last keyboard macro, then append keys to its definition
+
+C-u C-u <F3>
+append keys to the last keyboard macro without re-executing it
+
+C-x C-k r
+run the last keyboard macro on each line that begins in the region
+
+defining keyboard macro:
+1) type <F3> to start defining a keyboard macro
+2) continue executing k
+3) type <F4> to terminate definition
+4) type <F4> again to call the macro
+
+<F3> M-f foo <F4>
+defines a macro to move forward a word and then insert foo
+after macro is defined, you can call it with <F4>
+
+C-u <F3>
+after terminating the definition of a keyboard macro, just call above command to insert more keystrokes
+
+C-u C-u <F3>
+can append to existing macro without re-executing it
+
+keyboard command exceptions:
+
+C-g
+quits keyboard macro definition
+
+C-M-c
+this is unreliable on exiting macros
+
+C-x C-k r
+apply macro to region lines
+repeats last defined keyboard macro on each line that begins in the region
+
+17.2 - keyboard macro ring
+
+Keyboard Macro Ring
+a history of all defined keyboard macros shared by all buffers
+
+C-x C-k C-k
+execute the keyboard macro at the end of the ring
+
+C-x C-k C-n
+rotate the keyboard macro ring to the next macro
+
+C-x C-k C-p
+rotate the keyboard macro ring to the previous macro
+
+17.3 - keyboard macro counter
+
+<F3> <F3>
+in a keyboard macro definition, insert the keyboard macro counter value in the buffer
+
+C-x C-k C-i
+insert the keyboard macro counter value in the buffer
+
+C-x C-k C-c
+set the keyboard macro counter
+
+C-x C-k C-a
+add the prefix argument to the keyboard macro counter
+
+C-x C-k C-f
+specify the format for inserting the keyboard macro counter
+
+17.4 - executing macros with variations
+
+C-x q
+when this point is reached durign macro executiong, ask for confirmation
+
+responses for C-x q:
+<SPC>
+continue executing keyboard macro
+
+<DEL>
+skip the remainder of this repetition of the macro, and start right away with the next repetition
+
+<RET>
+skip the remainder of this repetition and cancel further repetition
+
+C-r
+
+17.5 - naming and saving keyboard macros
+
+C-x C-k n
+give a command name for duration of emacs session to the most recently defined keyboard macro
+
+C-x C-k b
+bind the most recently defined keyboard macro to a key sequence for the duration of the session
+
+M-x insert-kbd-macro
+insert in the buffer a keyboard macro's definition, as lisp code
+
+17.6 - editing a keyboard macro
+
+C-x C-k C-e
+edit last defined keyboard macro
+
+C-x C-k e NAME <RET>
+edit a previously defined keyboard macro NAME
+
+C-x C-k l
+edit the last 30 0keystrokes as a keyboard macro
+
+17.7 - stepwise editing a keyboard macro
+
+C-x C-k <SPC>
+replay and edit the last keyboard macro, one command at a time
+
+q
+C-g
+quit the macro - edited macro replaces the last macro on the macro ring
+
+Refer to 17.7 for list of options on replaying macros
+
+==================================================================================
+Ch. 18 - File Handling
+
+C-x b
+on a new buffer, default directory is same as current buffer
+
+M-x pwd
+see value of defaulted directory
+
+M-x cd
+sets buffer's default directory to that directory
+
+~/
+home directory
+
+//
+ignores everything before the second slash
+
+$
+used to substitute an environment variable into a file name
+
+$$
+access a file name with a $ in it
+
+18.2 - visiting files
+
+C-x C-f
+visit a file
+also used to create a new file
+
+C-x C-r
+visit a file for viewing, without allowing changes to it
+
+C-x C-v
+visit a different file instead of the one visited last
+kills current buffer
+
+C-x 4 f
+visit a file in another window
+do not alter what is displayed in the selected window
+
+M-x find-file-literally
+visit a file with no conversion of the contents
+
+C-x 5 f
+opens a file in another frame
+can also open directories with dired mode
+
+18.3 - saving files
+
+C-x C-s
+save current buffer to its file
+
+C-x s
+save any or all buffers to their files
+
+M-~
+forget that the current buffer has been changed
+--> in gnome, this opens all window options
+
+C-x C-w
+save current buffer with a specified file name
+
+M-x set-visited-file-name
+change the file name under which the current buffer will be saved
+
+18.4/18.5 - reverting files
+seems complicated, don't do it
+
+18.6 - auto-saving
+
+18.9 - comparing files
+
+M-x diff
+compares two files
+
+18.10 - diff mode
+more on comparing files
+
+18.11
+
+M-x delete-file FILE_NAME
+deletes file
+
+M-x copy-file
+reads file OLD and writes a new file named NEW with same contents
+
+M-x copy-directory
+copies directories, similarly to cp - shell command
+
+M-x rename-file
+reads two file names OLD and NEW using the minibuffer
+
+M-x vc-rename-file
+version control for renaming files -- used with git
+
+18.13 - file archives
+.tar files are archives
+emacs views them in Tar mode
+
+18.14 - remote files
+using ssh on files
+
+18.17 - convenience features for finding files
+
+M-x recentf-mode
+lists recently opened files
+
+M-x ffap
+generalizes find-file with other features
+
+visiting image files automatically selects Image mode
+--> C-c C-c to toggle between displaying the file asna image in emacs and displaying its underlying text representation
+
+18.18 - filesets
+if editing a certain gorup of files - can perform operations on them all at once such as visiting, query-replace, and shell-commands
+--> must be enabled
+add (filesets-init) into init file
+
+M-x filesets-add-buffer <RET> NAME <RET>
+add the current selected file to fileset NAME
+
+M-x filesets-edit
+edit list of filesets directly
+
+M-x filesets-open
+visit all the files in a fileset
+
+M-x filesets-close
+close all files in fileset
+==================================================================================
+Ch. 19 - Using Multiple Buffers
+
+buffer - the text you are editing in Emacs
+
+C-x b BUFFER
+select or create a buffer named BUFFER
+
+C-x 4 b BUFFER
+similar to above, but select BUFFER in another window
+
+C-x 5 b BUFFER <RET>
+similar to above, but select buffer in a separate frame
+
+C-x C-b
+list existing buffers
+
+19.3 - miscellaneous buffer operations
+
+C-x C-q
+toggle read only status of buffer
+
+M-x rename-buffer <RET> NAME <RET>
+change name of current buffer
+
+19.4 - killing buffers
+
+C-x k BUFNAME <RET>
+kill buffer BUFNAME
+
+M-x kill-some-buffers
+offer to kill each buffer, one by one
+
+M-x clean-buffer-list
+kills all unmodified buffers that have not been used for a long time
+
+19.5 - operating on several buffers
+
+M-x buffer-menu
+begin editing a buffer listing all Emacs buffers
+
+M-x buffer-menu-other-window
+similar to above, but do it in another window
+
+At buffer menu, can enter these keys on each ubffer:
+d - flag buffer for deeletion, then move point to next line
+C-d - like d, but move point up instead of down
+s - flag buffer for saving
+x - perform all flagged deletions and saves
+u - remove all flags from current line and move down
+<DEL> - move to previous line and remove all flags on that line
+q - quit buffer menu
+C-x b - switch to another buffer on the buffer menu
+
+19.6 - indirect buffers
+I don't think i will be using this
+
+19.7 - convenience features and customization of buffer handling
+C-j - select first buffer in list for auto-completion
+
+sequence: C-x b C-j
+==================================================================================
+Ch. 20 - Multiple Windows
+
+C-x 2
+split selected window into two windows - one above the other
+
+C-x 3
+split selected window into two windows - side by side
+
+20.3 - using other windows
+
+C-x o
+select another window
+
+C-M-v
+scroll the next window
+
+C-x 4 b BUFNAME <RET>
+select buffer BUFNAME in another window
+
+C-x 4 f FILENAME <RET>
+visit file FILENAME and select its buffer in another window
+
+C-x 4 d DIRECTORY <RET>
+select a dired buffer for directory DIRECTORY in another window
+
+C-x 5 ...
+do all the above, but open another emacs
+
+C-x 4 m
+start composing a mail message, similar to C-x m, but in another window
+
+C-x 4 .
+find the definition of an identifier, similar to M-.
+
+C-x 4 r FILENAME <RET>
+visit the filename read-only
+
+20.5 - deleting and resizing window
+
+C-x 0
+delete the selected window
+
+C-x 1
+delete all windows in the selected frame except the selected window
+
+C-x 4 0
+delete the selected window and kill the buffer that was showing in it
+
+C-x ^
+make selected window taller
+
+C-x }
+make selected window wider
+
+C-x {
+make selected window narrower
+
+C-x -
+shrink this window
+
+C-x +
+make all windows the same height
+
+20.6 - displaying a buffer in a window
+I do not know if this is useful
+
+==================================================================================
+Ch. 21 - Frames and Graphical Displays
+
+SUPER-mouse
+drag the window
+
+21.6 - creating frames
+
+C-x 5
+use a different frame
+
+C-x 5 2
+create a new frame
+
+C-x 5 b BUFNAME <RET>
+select buffer <BUFNAME> in another frame
+
+C-x 5 f FILENAME <RET>
+visit file FILENAME and select its buffer in another frame
+
+C-x 5 d DIRECTORY <RET>
+select a dired buffer for directory DIRECTORY in another frame
+
+C-x 5 m
+start composing mail message in another frame
+
+21.7 - frame commands
+C-x 5 0
+delete selected frame
+
+C-z
+minimize or iconify the selected emacs frame
+
+C-x 5 o
+select another frame, and raise it
+
+C-x 5 1
+delete all frames on the current terminal except the selected on
+
+M-<F10>
+toggle the maximization state of the current frame
+
+<F11>
+toggle full-screen mode for current frame
+
+21.9 - speedbar frames
+
+M-x speedbar
+create speedbar and associate it with the current frame
+also dismisses speedbar by calling it again
+or select speedbar and type q to dismiss speedbar
+
+speedbar default mode: "File Display"
+--> shows files in current directory of the selected window
+clicking file name visits that file in the selected window of attached frame
+
+21.11 - frame parameters
+
+can be useful for opening default emacs files
+
+(add-to-list 'default-frame-alist '(width . 90))
+(add-to-list 'default-frame-alist '(height . 40))
+(add-to-list 'default-frame-alist '(font . "Monospace-10"))
+
+21.12 - scroll bars
+
+M-x scroll-bar-mode
+toggle use of veritcal scroll bars
+
+21.13 - window dividers
+
+M-x window-divider-mode
+toggle display of window dividers between windows
+
+21.17 - using dialog boxes
+
+dialog box - menu for asking yes-or-no question
+
+disabloe dialog boxes:
+set use-dialog-box to nil
+
+21.20 - non-window terminals
+
+C-x 5 2
+on text terminal, create a new frame nad switch to it
+
+C-x 5 o
+cycle through excisting frames
+
+C-x 5 0
+delete current frame
+
+==================================================================================
+Ch. 23 - Major and Minor Modes
+
+major modes - specialized facilities for working on a particular file type, suhc as a C source file
+--> mutually exclusive: each buffer has one and only one major mode at any time
+
+minor modes - optional features that can be turned on and off
+
+M-x ...-mode
+enter a mode for ... and it will give name of command to select that mode
+ex. lisp-mode, text-mode
+
+c-h m (describe-mode)
+view documentation for current major mode, including a list of its key binds
+
+every major mode defines a "mode hook"
+--> customizable list of Lisp functions to run each time the mode is enabled in a buffer
+
+mode hooks are used to enable minor modes
+--> ex. enable Flyspell minor mode in all text-based major modes
+
+23.2 - minor modes
+
+minor mode - an optional editing mode that alters the behavior of emacs in some well-defined way
+
+23.3 - choosing file modes
+
+this section describes emacs choosing major mode based on the file name and such. it looks at extension of the file first.
+
+==================================================================================
+Ch. 24 - indentation
+
+C-q <TAB>
+insert a tab character in the buffer
+i.e. a tab without spaces
+
+C-M-o
+split current line at point -- indentation of next line is same number of columns as current line
+
+M-m
+move to first non-whitespace character on the current line
+
+M-i
+indent whitespace at point up to the next tab stop
+
+M-^
+merge previous and current line
+joins two lines cleanly
+
+C-M-\
+indent all the lines in the region
+
+C-x <TAB>
+change indentation of all lines that begin in the region, move the affected lines at a rigid unit
+
+24.2 - tab stops
+can refer to this for spacing tabs
+
+24.3 - tabs vs spaces
+
+(setq indent-tabs-mode nil)
+all indentations are made from spaces only
+
+24.4 - convenience features for indentation
+
+tab-always-indent
+tweaks behavior of <TAB> command
+
+==================================================================================
+Ch. 25 - Human Language
+
+25.2 - sentences
+
+M-a
+move back to the beginning of the sentence
+
+M-e
+move forward ot the end of the sentence
+
+M-k
+kill forward to the end of the sentence
+
+C-x <DEL>
+kill back to the beginning of the sentence
+
+25.3 - paragraphs
+
+M-{
+move back to previous paragraph beginning
+
+M-}
+move forward to next paragraph end
+
+M-h
+put point and mark around this or next paragraph
+
+25.4 - pages
+not sure if this applies to text editors
+
+25.6 - filling text
+
+M-q
+fill current paragraph
+--> delete excess space occurring within the paragraph
+
+C-x f
+set fill column
+
+M-o M-s
+center a line
+
+25.6.3 - fill prefix
+
+C-x .
+set the fill prefix
+
+M-q
+fill a paragraph using current fill prefix
+
+M-x fill individual paragraphs
+fill the region, considering each change of indentation as starting a new paragraph
+
+25.7 - case conversion
+
+M-1
+convert following word to lower case
+
+M-u
+convert following word to lower case
+
+M-c
+capitalize the following word
+
+C-x C-l
+convert region to lower case
+
+C-x C-u
+convert region to upper case
+
+25.8 - text mode
+
+M-x text-mode
+switch into text mode
+
+25.9 - out line mode
+no idea if i will ever use this
+
+25.10 - org mode
+I already have another note taking application
+
+25.12 - html modes
+not sure if i use this since i use web-mode
+
+25.15 - editing text-based tables
+
+this is useful for database tables
+
+M-x table-fixed-width-mode
+toggles automatic table resizing feature
+
+M-x table-insert
+create a text-based table from scratch
+
+M-x table-recognize
+recognize valid table cells and applies relevant text properties
+
+25.15.4 - commands for table cells
+
+M-x table-span-cell
+merges current cell with adjacent cell in that direction
+
+M-x table-split-cell
+splits current cell vertically or horizontally
+
+M-x table-heighten-cell
+enlarge current cell vertically
+
+M-x table-shorten-cell
+shrink current cell vertically
+
+M-x table-widen-cell
+enlarge current cell horizontally
+
+M-x table-narrow-cell
+shrink the current cell horizontally
+
+M-x table-justify
+imposes justification on one or more cells in a table
+
+M-x table-insert-row
+inserts a row of cells before current table row
+
+M-x table-insert-column
+inserts a column of cells to the left of the current table column
+--> to insert to the right, move point to the right of the rightmost column, outside the table
+
+M-x table-delete-column
+M-x table-delete-row
+delete column/row of table cells
+
+==================================================================================
+Ch. 26 - editing programs
+
+C-M-a
+move to the beginning of current or preceding defun (define-function)
+
+C-M-e
+move to end of current or following defun
+
+C-M-h
+put region around whole current or following defun
+
+C-M-f
+move forward over a balanced expression
+
+C-M-b
+move backward over a balanced expression
+
+C-M-k
+kill balanced expression forward
+
+C-M-t
+transpose expressions
+
+C-M-@
+C-M-<SPC>
+put mark after following expression
+
+26.4.2 - moving in the parenthesis structure
+
+C-M-n
+move forward over a parenthetical group
+
+C-M-p
+move backward over a parenthetical group
+
+C-M-u
+move up in parenthesis structure
+
+C-M-d
+move down in parenthesis structure
+
+26.5 - comments
+
+M-;
+insert or reallign comment on current line
+
+C-x C-;
+comment or uncomment the current line
+
+C-u M-;
+kill comment on current line
+
+C-x ;
+set comment column
+
+C-M-j
+M-j
+insert new line, then insert and align a comment
+
+C-c C-c
+add comment delimiters to all the lines in the region
+
+26.12 - C and related modes
+
+C-M-a
+C-M-e
+move to beginning or end of current function
+
+C-c C-u
+move point back to the containing preprocessor conditional
+
+C-c C-p
+move point back over a preprocessor conditional
+
+C-c C-n
+move point forward across a preprocessor conditional
+
+M-a
+move point to hte beginning of the innermost C statement
+
+M-e
+move point to the end of the innermost C statement or sentence
+
+26.12.2 - electric C characters
+
+C-c C-l
+toggle electric action
+
+C-c C-a
+toggle auto-newline feature
+
+26.12.3 - hungry delete feature in C
+not sure if i will use this
+
+26.12.4 - other commands for C mode
+
+==================================================================================
+Ch. 27 - Compiling and Testing Programs
+
+M-x compile
+run a compiler asynchronously under Emacs, with error messages going to the compilation buffer
+--> this also runes make
+
+M-x recompile
+invoke compiler with same command
+
+M-x kill-compilation
+kill the running compilation subprocess
+
+27.2 - compilation mode
+my keybindings may have to change in order to visit lines of compilation errors
+
+M-x grep
+M-x 1grep
+run grep asynchronously underEmacs, listing matching lines in the buffer named grep
+
+M-x grep-find
+M-x find-grep
+M-x rgrep
+run grep via find and collect output in the grep buffer
+
+M-x zrgrep
+run zgrep
+
+M-x kill-grep
+kill running grep subprocess
+
+27.5 - finding syntax errors on the fly
+flymake mode - on-the-fly syntax checking for many programming and markup languages, including C, C++, Perl, HTML, etc.
+
+27.6 - running debuggers under Emacs
+
+GUD - grand unified debugger
+can run gdb, dbx, sdb, xdb, pdb debuggers
+
+M-x gdb
+run gdb
+
+M-x pdb
+run python debugger
+
+27.6.3 - commands of GUD
+hotkeys displaying the commands of GUD debugger
+
+27.6.5 - gdb
+talks about gdb interface
+
+27.7 - executing lisp expressions
+
+C-M-x
+evaluate current top-level lisp expression
+
+M-:
+evaluate lisp expression
+
+C-x C-e
+evaluate lisp expression before point
+
+M-x eval-region
+M-x eval-buffer
+evaluate lisp in region/buffer
+
+==================================================================================
+Ch. 28 - Maintaining Large Programs
+
+28.1 - version control
+vc - version control
+
+git - repository syncing must be done in command line
+
+28.1.6 - examining and comparing old revisions
+practically git diff in emacs
+
+28.3 - identifiers
+
+28.4 - emacs development environment
+
+M-x global-ede-mode
+
+enable EDE at emacs start-up, put this in init.el file:
+(global-ede-mode t)
+
+28.5 - emerge
+merging files together
+equivalent to git merge <BRANCH-NAME>
+
+==================================================================================
+Ch. 29 - Abbrevs
+
+abbrev - word which expands if inserted into some different text
+
+ex.
+foo = "find outer otter"
+insert 'find outer otter' into buffer by typing 'f o o <SPC>'
+
+29.2 - Abbrevs commands
+
+C-x a g
+define an abbrev
+
+C-x a l
+define abbrev specific to current major mode
+
+C-x a i g
+define a word in the buffer as an abbrev
+
+==================================================================================
+Ch. 30 - Dired
+
+C-x d
+C-x 5 d
+open directory in minibuffer/new frame
+
+30.3 - deleting files with dired
+d - flag this file for deletion
+u - remove deletion flag
+<DEL>/<BACKSPACE> - move point to previous line and remove the deletion flag on that line
+x - delete files flagged for deletion
+
+30.5 - visiting files in Dired
+f, e, <RET> - visit the file described on the current line
+o - open another window to display the file's buffer
+C-o - visit the file in another window
+v - view the file
+^ - visit parent directory of current directory
+
+30.7 - operating on files
+this section talks about copying, deleting, renaming files, etc
+
+30.8 - shell commads in dired
+! - reads a shell command string in the minibuffer
+
+30.11 - subdirectories in dired
+i - insert contents of a subdirectory into the directory
+$ - hide subdirectory
+M-$ - hide all subdirectories
+
+30.15 - updating dired buffer
+go back to chapter 30 later
+
+==================================================================================
+Ch. 31 - Calendar and Diary
+
+M-x calendar
+
+==================================================================================
+Ch. 32 - Sending Mail
+
+C-x m
+switches to buffer unsent mail
+
+C-x m
+C-x m
+compose mail in new window/frame
+
+C-c C-s
+C-c C-c
+send the mail
+
+useless to set-up email if it does not have auto-complete of my contacts list
+
+==================================================================================
+Ch. 33 - Reading Mail with Rmail
+
+if I cannot auto-complete contacts email, better I view email in a separate browser
+
+==================================================================================
+Ch. 34 - Gnus
+
+gnus - emacs package for reading and posting usenet news
+
+==================================================================================
+Ch. 35 - Host Security
+
+don't have to worry about security
+
+==================================================================================
+Ch. 36 - Network Security
+
+==================================================================================
+Ch. 37 - Document Viewing
+
+M-x doc-view-mode
+enable docview mode
+k - kill docview buffer
+q - bury docview buffer
+
+docview mode - view document as a PDF
+
+s s
+M-x doc-view-set-slice
+crop the PDF
+
+==================================================================================
+Ch. 38/39 - web browsing with EWW
+
+M-x eww
+open url or search the web
+
+==================================================================================
+Ch. 40 - Running Shell Commands from Emacs
+
+M-! CMD <RET>
+run the shell command CMD and display the output
+
+M-| CMD <RET>
+run shell command CMD with region contentsas input
+
+M-x shell
+run a subshell with input and output through an emacs buffer
+
+M-x term
+run a subshell with input and output through an emacs buffer
+
+40.3 - shell mode
+section on a list of shell mode commands
+
+<TAB> - auto-complete command or file name
+
+M-?
+display list of possible completions
+
+C-d
+<BACKSPACE>
+delete a character
+
+C-c C-a
+move to beginning of the line
+
+C-c <SPC>
+accumulate multiple lines of input then send them together
+practically inserts new lines for more shell commands
+
+C-c C-u
+kill all the text pending at end of buffer to be sent as input
+
+C-c C-w
+kill a word before point
+
+C-c C-c
+interrupt the shell or its current subjob if any
+
+C-c C-z
+stop the shell or its current subjob if any
+
+C-c C-\
+send quit signal to shell
+
+C-c C-o
+delete the last batch of output from a shell command
+
+
+C-c C-s
+write the last batch of output from a shell command to a file
+
+C-c C-r
+C-M-1
+scroll to display beginning of last batch of output at top of window
+
+C-c C-e
+scroll to put the end of the buffer at the bottom of the window
+
+C-c C-f
+move forward across one shell command, but not beyond the current line
+
+C-c C-b
+move backward across one shell command but not beyond current line
+
+M-x dirs
+ask shell for its working directory, and update the shell buffer's default directory
+
+M-x send-invisible
+send text as input to the shell, after reading it without echoing
+
+M-x comint-continue-subject
+contiue shell process
+
+M-x comint-strip-ctrl-m
+discard all control-M characters from current group of shell outputs
+
+40.5 - shell command history
+
+M-p
+fetch next earlier old shell command
+
+M-n
+fetch next later old shell command
+
+M-r
+begin incremental regexp search of old shell commands
+
+C-c C-x
+fetch next subsequent command from history
+this can be inputted consecutively
+
+C-c .
+fetch one argument form an old shell command
+
+C-c C-1
+display buffer's history of shell commands in another window
+
+
+C-c C-p
+move point to previous prompt
+
+C-c C-n
+move point to following prompt
+
+C-c <RET>
+copy input command at point, inserting copy at the end of the buffer
+
+40.8 - emacs terminal emulator
+
+M-x term
+run subshell in a text terminal emulator
+
+can modify term colors/fonts through editing Faces
+
+C-c C-j
+switch to line mode
+
+C-c C-k
+switch to char mode
+
+available in char mode:
+C-c C-c
+send literal C-c to sub-shell
+
+C-c CHAR
+equivalnt to C-x CHAR in emacs
+
+==================================================================================
+Ch. 41 - Using Emacs as a Server
+
+set emacs as an "edit server"
+
+M-x server-start
+(server-start) in init file
+existing emacs process is the server
+when exit emacs, server dies with the emacs process
+
+M-x set-variable <RET> server-name <RET> foo <RET>
+running multiple emacs servers on same machine
+
+M-x emacsclient FILE
+connects to emacs server
+
+==================================================================================
+Ch. 42 - Printing Hard Copies
+
+M-x print-buffer
+
+M-x 1pr-buffer
+print buffer without page headings
+
+M-x print-region
+M-x 1pr-region
+prints only current region
+
+==================================================================================
+Ch. 43 - Sorting Text
+
+M-x sort-lines
+divide region into lines, sort by comparing entire text of a line
+
+M-x sort-paragraphs
+divide the regions into paragraphs, sort by comparing entire text of a paragraph
+
+M-x sort-pages
+sort region into pages
+
+more sort options in this section
+
+==================================================================================
+Ch. 44 - Editing Pictures
+
+M-x picture-mode
+enter picture mode
+
+==================================================================================
+Ch. 45 - Editing Binary Files
+
+==================================================================================
+Ch. 46 - Saving Emacs Sessions
+
+M-x desktop-save
+save desktop manually
+
+==================================================================================
+Ch. 47 - Recursive Editing Levels
+not sure when I will use this
+
+==================================================================================
+Ch. 48 - Hyperlinking and Navigation Features
+I will probably never use this
+
+==================================================================================
+Ch. 49 - Other Amusements
+
+M-x animate-birthday-present
+M-x doctor
+I probably will never use the rest of this section
+
+==================================================================================
+Ch. 50 - Emacs Lisp Packages
+
+M-x list-packages
+
+C-h P
+prompts for name of package and displays it
+
+this section describes how to navigate through the package menu buffer
+
+50.3 - package files and directory layout
+
+==================================================================================
+Ch. 51 - Customization
+
+M-x customize
+creates customization buffer - lets you navigate through a logically organized list of settings, edit and set their values, and save them permanently
+
+51.1.5 - customizing faces
+
+this section will be useful for future editing of the emacs terminal emulator
+M-x term
+
+51.2 - variables
+
+variable - lisp symbol which has a value
+
+C-h v VAR <RET>
+display value and documentation of variable VAR
+
+51.2.2 - hooks
+
+hook - lisp variable which holds a list of functions to be called on some occasion
+
+ex. kill-emacs-hook - runs just before exiting emacs
+
+this entire chapter can be found in the Emacs Lisp manual
+
+51.3 - customizing key bindings
+
+keymaps - bindings between key sequences and command functions recorded in data structures
+
+global keymap - most important keymap because it is always in effect
+
+ctl-x-map
+variable name for the map used for characters that follow C-x
+
+51.3.6 - rebinding keys in init file
+
+kbd function - converts a textual representation of a key sequence
+
+(global-set-key (kbd "C-z") 'shell)
+--> put in init file and it will open up shell
+
+single quote before shell: marks it as a constant symbol than a variable
+omitting quote makes shell a variable
+
+More examples:
+     (global-set-key (kbd "C-c y") 'clipboard-yank)
+     (global-set-key (kbd "C-M-q") 'query-replace)
+     (global-set-key (kbd "<f5>") 'flyspell-mode)
+     (global-set-key (kbd "C-<f5>") 'linum-mode)
+     (global-set-key (kbd "C-<right>") 'forward-sentence)
+     (global-set-key (kbd "<mouse-2>") 'mouse-save-then-kill)
+
+51.3.7 - modifier keys
+can modify commands to not be case sensitive
+--> not recommended
+
+51.3.8 - rebinding function keys
+
+function keys are like f1, f2, up, down, right, left arrow keys
+
+51.3.10 - rebinding mouse buttons
+
+Lisp symbols are used to designate mouse buttons
+future expansion if mouse has a back and forward button
+--> can use back/forward buttons for switching between buffers
+with C-x <LEFT> and C-x <RIGHT> arrow keys
+
+51.3.11 - disabling commands
+
+purpose of disabling a command - prevent users from executing it by accident
+
+disabling command example:
+(put 'delete-region 'disabled t)
+--> can put this in init file to disable
+
+(put 'delete-region 'disabled
+          "It's better to use `kill-region' instead.\n")
+--> this echoes the string when executing a disabled command
+
+51.4 - emacs initialization file
+
+any of these initialize files will work:~/.emacs
+~/.emacs.el
+~/.emacs.d/init.el
+
+put any of the below lisp expressions to init.el file to see its effect on emacs startup
+
+(add-to-list 'load-path "/path/to/lisp/libraries")
+add a directory to the variable load-path
+--> can put lisp libraries that are not included with emacs in this directory
+
+(setq c-tab-always-indent nil)
+make <TAB> in C mode just insert a tab if point is in the middle of a line
+
+(setq-default case-fold-search nil)
+make searches case sensitive by default
+
+(setq user-mail-address "cheney@torture.gov")
+specify your own email address
+
+(setq-default major-mode 'text-mode)
+make text mode default mode for new buffers
+
+(line-number-mode 0)
+turn off line number mode
+
+(add-hook 'text-mode-hook 'auto-fill-mode)
+turns on auto-fill mode
+
+(global-unset-key "\C-x\C-v")
+undefine C-x C-v
+purpose of undefined is to make it a prefix
