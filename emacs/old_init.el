@@ -379,6 +379,11 @@ With argument, do this that many times."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Programming Languages
 
+;; yaml
+(require 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+
+
 ;; C++, C
 (defun my-c-mode-common-hook ()
   (c-set-offset 'substatement-open 0)
@@ -470,4 +475,3 @@ With argument, do this that many times."
 (server-start)
 
 ;;; init.el ends here
-
