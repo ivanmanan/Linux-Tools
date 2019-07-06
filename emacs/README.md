@@ -33,9 +33,11 @@ all buffers that are visiting a file.
 3) Open the terminal and use the `grep -rnwi STRING` command.
 
 ### Adding JS Lint
-1) Install `npm` packages:
+1) Install the below `npm` packages. Note that version 5.16.0 is
+used due to errors with the current eslint package.
 ```bash
-    npm install -g eslint babel-eslint
+    npm install -g eslint@5.16.0
+    npm install -g babel-eslint
     eslint -v
 ```
 
