@@ -8,7 +8,19 @@ Place the elpa directory in ~/.emacs.d/
 Note: this will only work with Emacs version 25. For Ubuntu 16.04, consult this link:
 http://ubuntuhandbook.org/index.php/2017/04/install-emacs-25-ppa-ubuntu-16-04-14-04/
 
-Ubuntu 16.04 does not have Emacs 25 upgrade available because 16.04 is an LTS release.
+Ubuntu 16.04 does not have Emacs 25 upgrade available because 16.04
+is an LTS release.
+
+## TODO: Converting Emacs to a full-fledged IDE
+* Jump to class definition - consider dumb-jump or imenu - https://www.emacswiki.org/emacs/JumpToDefinition
+* Enable Emacs to suggest the available methods of a class for both
+  C++ and JavaScript - consider company mode instead of
+  auto-complete
+* Google Search "Emacs and intellisense" to find customizations
+  to make Emacs as good as VS Code
+* Make DART mode work in Emacs
+* After all implementations, make sure to push `~/.emacs.d/init.el`
+  and `~/.emacs.d/elpa` into the GitHub repository as backup.
 
 ## Change command 'emacs' to 'emacs &':
 1) $ nano ~/.bashrc
