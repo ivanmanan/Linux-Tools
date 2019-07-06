@@ -7,21 +7,29 @@ module.exports = exports = {
         "node": true
     },
 
-    "ecmaFeatures": {
-        "arrowFunctions": true,
-        "blockBindings": true,
-        "classes": true,
-        "defaultParams": true,
-        "destructuring": true,
-        "forOf": true,
-        "generators": true,
-        "modules": true,
-        "spread": true,
-        "templateStrings": true,
-        "jsx": true    
+    "parserOptions": {
+        "ecmaFeatures": {
+            "arrowFunctions": true,
+            "blockBindings": true,
+            "classes": true,
+            "defaultParams": true,
+            "destructuring": true,
+            "forOf": true,
+            "generators": true,
+            "modules": true,
+            "spread": true,
+            "templateStrings": true,
+            "jsx": true
+        }
     },
 
-    "extends": "eslint:recommended",
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended"
+    ],
+    "plugins": [
+        "react"
+    ],    
 
     "rules": {
         // Possible Errors (overrides from recommended set)

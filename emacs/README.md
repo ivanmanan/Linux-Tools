@@ -35,11 +35,27 @@ all buffers that are visiting a file.
 ### Adding JS Lint
 1) Install `npm` packages:
 ```bash
-    npm install -g eslint babel-eslint eslint-plugin-react
+    npm install -g eslint babel-eslint
     eslint -v
 ```
 
 2) Copy the `eslintrc.js` file as `~/.eslintrc.js`.
 
 
-3) Emacs should automatically take-in the above json data for linting.
+3) Emacs should automatically take-in the above json data for
+linting.
+
+4) Make sure the `eslintrc.js` file is compatible with React.js
+files. To test, use the command `eslint FILE_NAME.jsx`. An error may
+occur saying missing some react.js specific `npm` modules. If so,
+then continue globally installing the node modules until the
+`eslint` command finally works. This may incorporate the following
+commands:
+```bash
+    npm install -g eslint-plugin-react
+    npm install -g eslint-config-react-app
+    npm install -g eslint-plugin-import@2.18.0
+    npm install -g eslint-plugin-flowtype
+    npm install -g eslint-plugin-jsx-a11y
+    npm install -g eslint-plugin-react-hooks
+```
