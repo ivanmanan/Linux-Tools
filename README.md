@@ -41,3 +41,32 @@ Comment out the lines of the folders you want to hide in the following files:
 ~/.config/user-dirs.dirs
 /etc/xdg/user-dirs.defaults
 ```
+
+## Setting Up WiFi with Latest Drivers
+0. Create a folder `~/wifi/` to store all driver files and backups.
+1. Clone https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/linux-firmware.git/
+2. Clone https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/backport-iwlwifi.git/
+3. Install the latest driver on your system.
+```bash
+$ cd backport-iwlwifi
+$ sudo make && make install
+# Fix any errors by installing any missing pkgs. Ignore warnings.
+# The system will tell you to reboot on success, DON'T ... yet.
+# Keep reading. Copy some firmware first! :)
+```
+4. For Intel users: Delete all the firmware files for your Intel wireless from `/lib/firmware/`. It will be all the `iwlwifi-*.ucode` files that must go. Copy them away if you feel like having a backup is wisest, so why the heck not?
+5. Copy the newest firmware from the `linux-firmware` repo to your
+firmware directory (`/lib/firmware/`). These should also be `iwlwifi-*.ucode` files, like so:
+```bash
+# Check Network Controller
+$ lspci
+
+# EXAMPLE with Intel wireless 8265
+$ cd /path/to/linux-firmware
+$ sudo cp iwlwifi-8265-* /lib/firmware
+
+# EXAMPLE with 9560 M.2 NIC
+$ cd /path/to/linux-firmware
+$ sudo cp iwlwifi-9260-th-b0-jf-b0-38.ucode /lib/firmware/
+$ sudo cp iwlwifi-9000-pu-b0-jf-b0-38.ucode /lib/firmware/
+```
