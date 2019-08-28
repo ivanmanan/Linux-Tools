@@ -12,13 +12,12 @@ Ubuntu 16.04 does not have Emacs 25 upgrade available because 16.04
 is an LTS release.
 
 ## TODO: Converting Emacs to a full-fledged IDE
-* Jump to class definition - consider dumb-jump or imenu - https://www.emacswiki.org/emacs/JumpToDefinition
+* Jump to class definition - etags
 * Enable Emacs to suggest the available methods of a class for both
   C++ and JavaScript - consider company mode instead of
-  auto-complete
+  auto-complete; also display in minibuffer available methods
 * Google Search "Emacs and intellisense" to find customizations
-  to make Emacs as good as VS Code
-* Make DART mode work in Emacs
+  to make Emacs as good as VS Code - this needs to replace autofill
 * After all implementations, make sure to push `~/.emacs.d/init.el`
   and `~/.emacs.d/elpa` into the GitHub repository as backup.
 
@@ -73,3 +72,11 @@ commands:
     npm install -g eslint-plugin-jsx-a11y
     npm install -g eslint-plugin-react-hooks
 ```
+
+### Emacs Tags
+1. Run `etags` on the command line.
+```bash
+etags FILE_NAME
+```
+TODO: Work in progress. Need to find tags that is JavaScript
+compatible. Consider Icicles package.
