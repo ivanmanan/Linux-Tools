@@ -77,3 +77,10 @@ Open up Guake Preferences and adjust as needed.
 ## Removing Ubuntu Side Dock
 _sudo apt install dconf-tools_
 Navigate org->gnome->shell->extensions->dash-to-dock and set **autohide** to **off**.
+
+## Installing Better Photo Viewer
+```bash
+sudo apt install nomacs
+```
+Go to `Settings` > `Details` > `Default Applications` and set
+`Photos` to use `Nomacs`
