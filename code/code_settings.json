@@ -1,0 +1,33 @@
+{
+  "workbench.colorTheme": "Default Light+",
+  // Default zoom-level depends on scren resolution
+  "window.zoomLevel": 2,
+  //"window.zoomLevel": 0,
+  // MacOS should use Menlo font
+  "editor.fontFamily": "'monospace', 'Menlo'",
+  "editor.fontSize": 11,
+  "editor.minimap.enabled": false,
+  "javascript.validate.enable": false,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "gitTreeCompare.diffMode": "full",
+  "files.trimTrailingWhitespace": true,
+  "window.restoreWindows": "all",
+  "editor.suggestSelection": "first",
+  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+  "files.exclude": {
+    "**/.classpath": true,
+    "**/.project": true,
+    "**/.settings": true,
+    "**/.factorypath": true
+  },
+  "todo-tree.highlights.enabled": false,
+  "[json]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4
+  },
+  "[javascript]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2
+  },
+  "terminal.integrated.shell.linux": "/bin/bash"
+}
