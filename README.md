@@ -70,3 +70,16 @@ $ cd /path/to/linux-firmware
 $ sudo cp iwlwifi-9260-th-b0-jf-b0-38.ucode /lib/firmware/
 $ sudo cp iwlwifi-9000-pu-b0-jf-b0-38.ucode /lib/firmware/
 ```
+
+## Customize MacOS Keybindings
+1. Create the file `~/Library/Keybindings/DefaultKeyBinding.dict`
+2. Copy and paste the following content into that file:
+TODO: Check if ^w or ~w is a typo
+```bash
+{
+    "~d" = "deleteWordForward:";
+    "^w" = "deleteWordBackward:";
+    "~f" = "moveWordForward:";
+    "~b" = "moveWordBackward:";
+}
+```
