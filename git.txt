@@ -88,3 +88,6 @@ TODO: Fill this out
 
 # Removing remote branch
 $ git push <remote_name> --delete <branch_name>
+
+# Removing untracked files
+git clean -fd .
