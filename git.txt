@@ -75,7 +75,7 @@ $ git rebase -i master
 Change the word "pick" to "squash"
 Save and close the editor.
 Save and close the editor (the create commit message)
-git push -f origin
+git push --force-with-lease origin
 
 # Squashing Commits Alternative
 git checkout -b new_clean_branch
