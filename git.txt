@@ -55,9 +55,6 @@ $ git reset --hard HEAD^
 $ git reflog expire --expire=now --expire-unreachable=now --all
 $ git gc --prune=now
 
-Remove remote branch
-git push origin --delete feature/BRANCH_NAME
-
 Reverting The Working Copy to an Older Commit
 # Resets index to former commit; replace '56e05fced' with your commit code
 $ git reset 56e05fced
