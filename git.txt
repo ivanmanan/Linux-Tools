@@ -68,20 +68,12 @@ $ git commit -m "Revert to 56e05fced"
 $ git reset --hard
 
 # Squashing Commits
-$ git rebase -i master
-Change the word "pick" to "squash"
-Save and close the editor.
-Save and close the editor (the create commit message)
-git push --force-with-lease origin
+git checkout YOUR_BRANCH
+git reset $(git merge-base master YOUR_BRANCH)
+git add -A
+git commit -m "Squash all commits"
+git push --force
 
-# Squashing Commits Alternative
-git checkout -b new_clean_branch
-git merge original_messy_branch
-git reset --soft master        
-git commit -m "Squashed changes from original_messy_branch"
-
-# If you cannot force push when squashing the commits
-TODO: Fill this out
 
 # Removing remote branch
 $ git push <remote_name> --delete <branch_name>
