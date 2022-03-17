@@ -1,6 +1,9 @@
 # Linux-Tools
 Everyday working tools I use to setup my Linux environment.
 
+## Fixing Mouse Back-and-Forth Button on MacOS
+https://www.reddit.com/r/mac/comments/n1z7mc/why_do_my_logitech_mx_master_3_backforward/
+
 ## Grub Bootloader
 View the `grub` file to see the resolution size and color.
 
